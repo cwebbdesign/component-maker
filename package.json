@@ -1,0 +1,38 @@
+{
+  "name": "component-maker",
+  "version": "0.0.1",
+  "author": {
+    "name": "Chris Webb",
+    "email": "chris@christopherwdesign.com",
+    "url": "http://blog.mediumequalsmessage.com"
+  },
+  "description": "A way of creating JavaScript components for the DOM which inherit a standard interface",
+  "keywords": [
+    "component"
+  ],
+  "devDependencies": {
+    "chai": "^1.9.1",
+    "gulp": "^3.8.8",
+    "gulp-esformatter": "^1.0.0",
+    "gulp-jshint": "^1.8.4",
+    "gulp-jsvalidate": "^1.0.0",
+    "gulp-mocha": "^1.0.0",
+    "jsdom": "^1.0.0-pre.6",
+    "jshint-stylish": "^0.4.0",
+    "map-stream": "^0.1.0",
+    "mocha-unfunk-reporter": "^0.4.0",
+    "run-sequence": "^0.3.6",
+    "sinon": "^1.10.3"
+  },
+  "dependencies": {
+    "compose-extend": "^1.0.0",
+    "eventemitter2": "^0.4.14",
+    "jquery": "^2.1.1",
+    "lodash": "^2.4.1"
+  },
+  "license": "MIT",
+  "repository": {
+    "url": "git@github.com:cwebbdesign/component-maker.git",
+    "type": "git"
+  }
+}
