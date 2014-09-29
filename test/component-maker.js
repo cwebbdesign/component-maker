@@ -33,33 +33,27 @@ describe('Maker', function() {
     beforeEach(function() {
 
       window.$('body').append(fixture);
-
       var $el = window.$('#test');
 
-      var stub = {
-        $els: $el,
+      component = make({
+
         name: 'test',
+        $el: $el,
+
         events: {
           'click': 'clickHandler',
           'click a': 'clickHandler'
         },
-        clickHandler: function() {},
+        clickHandler: function() {
+          console.log('hi')
+        },
         subscriptions: {
           'test': function() {}
         },
         initialize: function() {
           this.$el.html('test');
         }
-      };
-
-
-      component = make(stub, {
-        $el: $el,
-        opts: {
-          custom: 'customvalue'
-        }
       });
-
     });
 
     // Clean up after each test
@@ -68,10 +62,6 @@ describe('Maker', function() {
       window.$('#test').remove();
     });
 
-    it('Should have a name', function() {
-      console.log('herro',component)
-      (component.$el[0] === component.$els[0]).should.equal(true);
-    });
     it('Should have a name', function() {
       component.name.should.equal('test');
     });
@@ -89,8 +79,8 @@ describe('Maker', function() {
       it('Should execute a click handler when clicked', function() {
         component.clickHandler = sinon.spy();
         component.delegateEvents();
-        window.$('#test').click();
 
+        window.$('#test').click();
         component.clickHandler.called.should.equal(true);
       });
 

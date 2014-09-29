@@ -51,14 +51,11 @@ module.exports = (function() {
   var ApiInstance = require('./lib/sharedApi');
   var _ = require('lodash');
 
-  // include lodash-node instead of lodash
+  // Todo: include lodash-node instead of lodash
   //_.each
   //_.isFunction
   //_.isObject
   //_.result
-  // fix the jquery issue and maybe replace with not jquery
-
-  // incorporate the shared api better: a way to extend it? a way to
 
 
   // Begin Module
@@ -95,10 +92,9 @@ module.exports = (function() {
     this.emitter.removeAllListeners();
     if (this.$el) {
       this.undelegateEvents();
-      // TODO: delete store.get(this.cid)
+      // TODO: delete from store.get(this.cid)
       this.$el.remove();
     }
-    //delete this;
   };
 
   Component.prototype.template = function() {};
@@ -129,7 +125,6 @@ module.exports = (function() {
     }
 
     _.each(events, function(method, key) {
-      //method = _.bind(method, self);
       method = method.bind(self);
       if (_.isFunction(method)) {
         self.emitter.on(key, method);
@@ -191,40 +186,24 @@ module.exports = (function() {
 
   // Important to note that the components which are initialized,
   // inherit the same event emitter. this enables all components of the same type to listen to events.
-
-  // TODO: decide if component instances should have their own emitter or if
-  // all instances of the same component should share the instance of the emitter
   // As the emitter is intended to listen to application level events, it makes sense to me
   // that all instances would respond to the event
-
-
-  // each component instance gets its own instance of event emitter
-  // shared api is a constructor
   function make(component, config) {
-    var Constructor, Subclass, conf = config || {};
+    var Constructor, Subclass,
+      conf = config || {};
 
     // Config exists as a way to create pass a set of derived options. In the original use case a function was created
     // to parse the DOM and pass information to the component at the time of creation.
     // Allow the $el to be passed directly as part of component instead of with the configuration.
-    // this feels like a hack. which means it feals like somethings wrong with how the subclassing happens or how events are delegated...
-
-    // i wonder if it would be smarter to return a function that's ready for configuration
-    // or to allow passing configuration directly to the Component constructor?
-    // TODO: sort out whats going on
     if (component.$el && !conf.$el) {
-      conf.$el = component.$el
-    }
-
-    if (component.opts && !conf.opts) {
-      conf.opts = component.opts
+      conf.$el = component.$el;
     }
 
     Constructor = Component.subclass(new ApiInstance());
 
 
     if (!subclasses[component.name]) {
-      // Cache initialized subclasses so
-      // we can reuse them with custom configuration.
+      // Cache initialized subclasses so we can reuse them with custom configuration.
       subclasses[component.name] = Constructor.subclass(component);
     }
 

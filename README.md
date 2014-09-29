@@ -1,61 +1,45 @@
 # Component Maker
 
-Takes a JavaScript object with a name property and returns it as a subclass of Component. Mixes in event emitter, backbone.extend and an events hash.
+Provides a default API and default features for JavaScript components which interact with the DOM. The interface is very similar to that of a Backbone views. Components are generally intended to only be concerned with what happens in their DOM element, but they are given the ability to publish and subscribe to application level events. Component maker was created with component initializer as a system for using Data-attributes to initialize and declaratively configure instances of components. It was not intended to be a replacement for Backbone or any other framework but is given enough functionality that eliminates the need for frameworks in some situations.
 
-Component maker was originally intended to create an instance of a Component with a set of options derived from data-attributes. The Component is cached and the instance is returned.
-Originally, this was designed to work in conjuction with an initializer that looks at the DOM, creates Component instances with custom config parsed from data-attributes and then calls initialize. 
-
-Component maker has since been modified to directly accept options instead of a separate config object. This is merely syntactic sugar.
 
 ## Installation
 
     npm install component-make
 
 ## Usage
-
+	// Components have a standard interface
     var make = require('component-maker');
+
     var component = make({
-         name: 'test',
-         events: {
-             'click': 'clickHandler',
-             'click a': 'clickHandler'
-         },
-         clickHandler: function () {},
-         subscriptions: {
-             'test': function () {}
-         },
-         initialize: function () {
-             this.$el.html('test');
-         },
-
-         // Instance configuration
-         {
-         $el: $("#test"),
-         opts: {custom: 'customValue'}
-     })
-
-
-	which of course should also be able to look like this:
-      var component = make({
-   		 $el: ''
-         name: 'test',
-         events: {
-             'click': 'clickHandler',
-             'click a': 'clickHandler'
-         },
-         clickHandler: function () {},
-         subscriptions: {
-             'test': function () {}
-         },
-         initialize: function () {
-             this.$el.html('test');
-         },
-         opts: {custom: 'customValue'}
-         
+   		$el: $('#test'),
+        name: 'test',
+        events: {
+            'click': 'clickHandler',
+            'click a': 'clickHandler'
+        },
+        clickHandler: function () {},
+        subscriptions: {
+            'test': function () {}
+        },
+        initialize: function () {
+            this.$el.html('test');
+        },
+        custom: 'customValue'
       });
-	
-    There is still a possibility that the API will change to 
-    var component = make(component);
-    var instance = component(config);
-    
-   
+
+	 // the $el and any custom options can also be passed to the component at the time of initialization which allows component definitions to exist separately from the instance options.
+	var obj = {
+        name: 'test', // components must have a name
+        events: {}, // an event hash mapped to jquery (copied from Backbone.View)
+        subscriptions: {}, // application level events)
+        initialize: function () {
+            // components must have an initialize function
+            this.$el.html('test');
+        }
+    };
+
+    var component = make(obj, {
+       $el: $("#test"),
+       opts: {custom: 'customValue'}
+    });
